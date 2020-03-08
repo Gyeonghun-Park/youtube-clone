@@ -405,6 +405,13 @@ html,
 body {
   height: 100%; }
 
+* {
+  box-sizing: border-box; }
+
+a {
+  text-decoration: none;
+  color: inherit; }
+
 body {
   background-color: #f5f5f5;
   color: #444444;
@@ -416,9 +423,6 @@ main {
   max-width: 1200px;
   margin: 0 auto;
   min-height: 70vh; }
-
-* {
-  box-sizing: border-box; }
 
 button,
 input:not([type="file"]),
