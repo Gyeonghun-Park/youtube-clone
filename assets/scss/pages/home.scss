@@ -11,4 +11,7 @@
   .videoBlock:nth-child(5) {
     grid-column: span 2;
   }
+  .videoBlock:only-child {
+    grid-column: 2 / 6;
+  }
 }
