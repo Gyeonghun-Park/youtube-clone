@@ -20,8 +20,8 @@ const stopRecording = () => {
   recordBtn.innerHTML = "Start recording";
 };
 
-const startRecording = MediaStream => {
-  videoRecorder = new MediaRecorder(MediaStream);
+const startRecording = mediaStream => {
+  videoRecorder = new MediaRecorder(mediaStream);
   videoRecorder.start();
   videoRecorder.addEventListener("dataavailable", handleVideoData);
   recordBtn.addEventListener("click", stopRecording);
