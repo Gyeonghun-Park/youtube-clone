@@ -3,9 +3,17 @@ import axios from "axios";
 const addCommentForm = document.getElementById("jsAddComment");
 const commentList = document.getElementById("jsCommentList");
 const commentNumber = document.getElementById("jsCommentNumber");
+const commentNumberConatiner = document.getElementById(
+  "jsCommentNumberContainer"
+);
 
 const increaseNumber = () => {
-  commentNumber.innerHTML = parseInt(commentNumber.innerHTML, 10) + 1;
+  const commentNum = parseInt(commentNumber.innerHTML, 10);
+  if (commentNum === 0) {
+    commentNumberConatiner.innerHTML = commentNum + 1 + " comment";
+  } else {
+    commentNumber.innerHTML = commentNum + 1;
+  }
 };
 
 const addComment = comment => {
