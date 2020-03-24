@@ -119,43 +119,7 @@ export const facebookLoginCallback = async (_, __, profile, cb) => {
   }
 };
 
-export const postFacebookLogIn = (req, res) => {
-  res.redirect(routes.home);
-};
-
-export const googleLogin = passport.authenticate("google");
-
-export const googleLoginCallback = async (_, __, profile, cb) => {
-  const {
-    _json: {
-      id,
-      avatar_url,
-      name,
-      email
-    }
-  } = profile;
-  try {
-    const user = await User.findOne({
-      email
-    });
-    if (user) {
-      user.googleId = id;
-      user.save();
-      return cb(null, user);
-    }
-    const newUser = await User.create({
-      email,
-      name,
-      googleId: id,
-      avatarUrl: avatar_url
-    });
-    return cb(null, newUser);
-  } catch (error) {
-    return cb(error);
-  }
-};
-
-export const postGoogleLogIn = (req, res) => {
+export const postFacebookLogin = (req, res) => {
   res.redirect(routes.home);
 };
 
