@@ -1,10 +1,12 @@
 import passport from "passport";
 import GithubStrategy from "passport-github";
 import FacebookStrategy from "passport-facebook";
+import passportGoogle from "passport-google-oauth";
 import User from "./models/User";
 import {
   githubLoginCallback,
-  facebookLoginCallback
+  facebookLoginCallback,
+  googleLoginCallback
 } from "./controllers/userController";
 import routes from "./routes";
 
@@ -31,6 +33,20 @@ passport.use(
       scope: ["public_profile", "email"]
     },
     facebookLoginCallback
+  )
+);
+
+const GoogleStrategy = passportGoogle.OAuth2Strategy
+
+passport.use(
+  new GoogleStrategy({
+      clientID: process.env.GG_ID,
+      clientSecret: process.env.GG_SECRET,
+      callbackURL: process.env.PRODUCTION ?
+        `https://thawing-journey-31791.herokuapp.com${routes.googleCallback}` : `http://localhost:4000${routes.googleCallback}`,
+      scope: ["profile", "email"]
+    },
+    googleLoginCallback
   )
 );
 

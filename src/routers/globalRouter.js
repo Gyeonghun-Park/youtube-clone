@@ -1,10 +1,7 @@
 import express from "express";
 import passport from "passport";
 import routes from "../routes";
-import {
-  home,
-  search
-} from "../controllers/videoController";
+import { home, search } from "../controllers/videoController";
 import {
   getJoin,
   getLogin,
@@ -15,12 +12,11 @@ import {
   postGithubLogIn,
   getMe,
   facebookLogin,
-  postFacebookLogin
+  postFacebookLogIn,
+  googleLogin,
+  postGoogleLogIn
 } from "../controllers/userController";
-import {
-  onlyPublic,
-  onlyPrivate
-} from "../middlewares";
+import { onlyPublic, onlyPrivate } from "../middlewares";
 
 const globalRouter = express.Router();
 
@@ -49,6 +45,7 @@ globalRouter.get(
 globalRouter.get(routes.me, getMe);
 
 globalRouter.get(routes.facebook, facebookLogin);
+
 globalRouter.get(
   routes.facebookCallback,
   passport.authenticate("facebook", {
@@ -56,7 +53,19 @@ globalRouter.get(
     successFlash: "Welcome",
     failureFlash: "Can't log in at this time"
   }),
-  postFacebookLogin
+  postFacebookLogIn
+);
+
+globalRouter.get(routes.google, googleLogin);
+
+globalRouter.get(
+  routes.googleCallback,
+  passport.authenticate("google", {
+    failureRedirect: routes.login,
+    successFlash: "Welcome",
+    failureFlash: "Can't log in at this time"
+  }),
+  postGoogleLogIn
 );
 
 export default globalRouter;

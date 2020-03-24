@@ -29,6 +29,11 @@ const GITHUB_CALLBACK = "/auth/github/callback";
 const FB = "/auth/facebook";
 const FB_CALLBACK = "/auth/facebook/callback";
 
+// Google
+
+const GG = "/auth/google";
+const GG_CALLBACK = "/auth/google/callback";
+
 // API
 
 const API = "/api";
@@ -79,6 +84,8 @@ const routes = {
   me: ME,
   facebook: FB,
   facebookCallback: FB_CALLBACK,
+  google: GG,
+  googleCallback: GG_CALLBACK,
   api: API,
   registerView: REGISTER_VIEW,
   addComment: ADD_COMMENT

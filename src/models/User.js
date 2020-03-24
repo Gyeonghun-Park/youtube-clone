@@ -5,23 +5,22 @@ const UserSchema = new mongoose.Schema({
   name: String,
   email: String,
   avatarUrl: String,
+  googleId: Number,
   facebookId: Number,
   githubId: Number,
-  comments: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment"
-    }
-  ],
-  videos: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Video"
-    }
-  ]
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Comment"
+  }],
+  videos: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Video"
+  }]
 });
 
-UserSchema.plugin(passportLocalMongoose, { usernameField: "email" });
+UserSchema.plugin(passportLocalMongoose, {
+  usernameField: "email"
+});
 
 const model = mongoose.model("User", UserSchema);
 
