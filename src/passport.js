@@ -11,24 +11,22 @@ import routes from "./routes";
 passport.use(User.createStrategy());
 
 passport.use(
-  new GithubStrategy(
-    {
+  new GithubStrategy({
       clientID: process.env.GH_ID,
       clientSecret: process.env.GH_SECRET,
-      callbackURL: process.env.PRODUCTION
-        ? `https://thawing-journey-31791.herokuapp.com${routes.githubCallback}`
-        : `http://localhost:4000${routes.githubCallback}`
+      callbackURL: process.env.PRODUCTION ?
+        `https://thawing-journey-31791.herokuapp.com${routes.githubCallback}` : `http://localhost:4000${routes.githubCallback}`
     },
     githubLoginCallback
   )
 );
 
 passport.use(
-  new FacebookStrategy(
-    {
+  new FacebookStrategy({
       clientID: process.env.FB_ID,
       clientSecret: process.env.FB_SECRET,
-      callbackURL: `https://b8d54a2e.ngrok.io${routes.facebookCallback}`,
+      callbackURL: process.env.PRODUCTION ?
+        `https://thawing-journey-31791.herokuapp.com${routes.facebookCallback}` : `http://localhost:4000${routes.facebookCallback}`,
       profileFields: ["id", "displayName", "photos", "email"],
       scope: ["public_profile", "email"]
     },
