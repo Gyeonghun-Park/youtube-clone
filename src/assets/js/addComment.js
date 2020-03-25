@@ -1,19 +1,23 @@
 import axios from "axios";
 
 const addCommentForm = document.getElementById("jsAddComment");
+const addCommentBtn = document.getElementById("jsAddCommentBtn");
+const deleteCommentBtn = document.getElementById("jsDeleteCommentBtn");
 const commentList = document.getElementById("jsCommentList");
 const commentNumber = document.getElementById("jsCommentNumber");
-const commentNumberConatiner = document.getElementById(
-  "jsCommentNumberContainer"
-);
+const comments = document.getElementById("jsComments");
+const commentId = document.getElementById("jsCommentId")
+
+
 
 const increaseNumber = () => {
   const commentNum = parseInt(commentNumber.innerHTML, 10);
   if (commentNum === 0) {
-    commentNumberConatiner.innerHTML = commentNum + 1 + " comment";
+    comments.innerHTML = "comment"
   } else {
-    commentNumber.innerHTML = commentNum + 1;
+    comments.innerHTML = "comments"
   }
+  commentNumber.innerHTML = commentNum + 1;
 };
 
 const addComment = comment => {
@@ -39,8 +43,22 @@ const sendComment = async comment => {
   }
 };
 
-const handleSubmit = event => {
-  event.preventDefault();
+
+const deleteComment = async () => {
+  const videoId = window.location.href.split("/videos/")[1];
+  const id = commentId.innerHTML;
+  await axios({
+    url: `/api/${videoId}/comment/delete`,
+    method: "POST",
+    data: {
+      id
+    }
+  });
+  location.reload(true)
+};
+
+const handleSubmit = ( /*evnet*/ ) => {
+  //event.preventDefault();
   const commentInput = addCommentForm.querySelector("input");
   const comment = commentInput.value;
   sendComment(comment);
@@ -49,6 +67,8 @@ const handleSubmit = event => {
 
 function init() {
   addCommentForm.addEventListener("submit", handleSubmit);
+  addCommentBtn.addEventListener("click", handleSubmit);
+  deleteCommentBtn.addEventListener("click", deleteComment);
 }
 
 if (addCommentForm) {

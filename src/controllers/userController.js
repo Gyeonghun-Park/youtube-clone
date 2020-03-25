@@ -27,7 +27,8 @@ export const postJoin = async (req, res, next) => {
     try {
       const user = await User({
         name,
-        email
+        email,
+        avatarUrl: "https://t1.daumcdn.net/cfile/tistory/2513B53E55DB206927"
       });
       await User.register(user, password);
       next();
@@ -49,7 +50,6 @@ export const postLogin = passport.authenticate("local", {
   successFlash: "Welcome",
   failureFlash: "Can't log in. Check email and/or password"
 });
-
 
 export const githubLogin = passport.authenticate("github");
 

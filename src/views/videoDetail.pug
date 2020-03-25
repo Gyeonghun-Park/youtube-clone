@@ -18,21 +18,42 @@ block content
             else 
                 span.video__views #{video.views} views
             .video__author
-                |Uploaded by 
-                a(href=routes.userDetail(video.creator.id))=video.creator.name
+                .author--column
+                    .author__avartar
+                        a(href=routes.userDetail(video.creator.id))
+                            img.a-avatar(src=video.creator.avatarUrl.startsWith("http") ? video.creator.avatarUrl : `/${video.creator.avatarUrl}`)
+                .author--column
+                    .author__name
+                        |Uploaded by 
+                        a(href=routes.userDetail(video.creator.id))=video.creator.name
         .video__comments
             if video.comments.length === 1
-                span.video__comment-number#jsCommentNumberContainer
+                span.video__comment-number
                     span#jsCommentNumber 1
-                    |  comment
+                    | 
+                    span#jsComments comment
             else
-                span.video__comment-number#jsCommentNumberContainer
+                span.video__comment-number
                     span#jsCommentNumber=video.comments.length
-                    |  comments
-            form.add__comment#jsAddComment
-                input(type="text", placeholder="Add a comment")
+                    | 
+                    pan#jsComments comments
+            if loggedUser
+                form.video__comment-add#jsAddComment
+                    .add--column
+                        img.c-avatar(src=loggedUser.avatarUrl.startsWith("http") ? loggedUser.avatarUrl : `/${loggedUser.avatarUrl}`)
+                    .add--column
+                        input(type="text", placeholder="Add a comment...")
+                        button#jsAddCommentBtn comment
             ul.video__comments-list#jsCommentList
                 each comment in video.comments.reverse()
                     li
-                        span=comment.text
-                        span ❌
+                        .liset--column
+                            a(href=routes.userDetail(comment.creator.id))
+                                img.c-avatar(src=comment.creator.avatarUrl.startsWith("http") ? comment.creator.avatarUrl : `/${comment.creator.avatarUrl}`) 
+                        .liset--column
+                            div(hidden)#jsCommentId=comment.id
+                            span.comment__author=comment.creator.name
+                            span.comment__text=comment.text
+                            if loggedUser && comment.creator.id === loggedUser.id
+                                span.comment__btnContainer
+                                    button#jsDeleteCommentBtn delete ❌
