@@ -1,7 +1,9 @@
 import routes from "../routes";
 import Video from "../models/Video";
 import Comment from "../models/Comment";
-
+import {
+  s3
+} from "../middlewares"
 // Home
 
 export const home = async (req, res) => {
@@ -235,3 +237,31 @@ export const postDeleteComment = async (req, res) => {
     res.end();
   }
 };
+
+
+// Delete video on aws
+
+export const awsDeleteVideo = async (req, res, next) => {
+  const {
+    params: {
+      id
+    }
+  } = req
+  const video = await Video.findById(id)
+  const url = video.fileUrl.split('/')
+  const delFileName = url[url.length - 1]
+  const params = {
+    Bucket: 'wetube-g/video',
+    Key: delFileName
+  }
+  s3.deleteObject(params, function (err, data) {
+    if (err) {
+      console.log('aws video delete error')
+      console.log(err, err.stack)
+      res.redirect(routes.home)
+    } else {
+      console.log('aws video delete success' + data)
+    }
+  })
+  next()
+}
